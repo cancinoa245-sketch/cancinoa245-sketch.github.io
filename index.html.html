@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="theme-color" content="#ffd6e7"/>
+  <title>Para ti, mi amor 💕</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Caveat:wght@400;700&family=Dancing+Script:wght@700&display=swap');
+
+    :root {
+      --pink: #ffb3c6;
+      --lilac: #d4a8f0;
+      --cream: #fff5e6;
+      --rose: #ff85a1;
+      --lavender: #c9b8f5;
+    }
+
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent !important;
+      -webkit-touch-callout: none;
+    }
+
+    html, body {
+      font-family: 'Caveat', cursive;
+      background: var(--cream);
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ════════════════════════
+       SPLASH
+    ════════════════════════ */
+    #splash {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ffd6e7 0%, #e8d5f5 40%, #d4e8ff 80%, #ffd6e7 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 6s ease infinite;
+      transition: opacity 1.2s ease, transform 1.2s ease;
+      user-select: none;
+    }
+
+    #splash.hidden {
+      opacity: 0;
+      transform: scale(1.08);
+      pointer-events: none;
+    }
+
+    @keyframes gradientShift {
+      0%,100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+
+    /* Overlay invisible que captura el toque en TODO el splash */
+    #splash-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10000;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .splash-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.8rem, 6vw, 3.5rem);
+      color: #c0607a;
+      text-align: center;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 8px rgba(255,150,180,0.5);
+      animation: floatTitle 3s ease-in-out infinite;
+      pointer-events: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .splash-sub {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1rem, 3.5vw, 1.5rem);
+      color: #a070c0;
+      margin-bottom: 50px;
+      animation: floatTitle 3s ease-in-out infinite reverse;
+      pointer-events: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes floatTitle {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    .splash-heart {
+      position: absolute;
+      animation: splashFloat linear infinite;
+      pointer-events: none;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    @keyframes splashFloat {
+      0%   { transform: translateY(110vh) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ════════════════════════
+       BOTÓN TÓCAME
+    ════════════════════════ */
+    #touchBtn {
+      position: relative;
+      z-index: 2;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(0.55rem, 2.2vw, 0.85rem);
+      color: #fff;
+      background: linear-gradient(145deg, #ff85a1, #d46fa0, #c45a8f);
+      border: none;
+      padding: 22px 38px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 0 0 4px #fff, 0 0 0 8px #ffb3c6, 0 10px 36px rgba(255,100,150,0.55);
+      animation: pulsBtn 1.6s ease-in-out infinite;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      -webkit-appearance: none;
+      appearance: none;
+      touch-action: manipulation;
+      outline: none;
+      min-width: 220px;
+      min-height: 70px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      pointer-events: none; /* El overlay maneja el toque */
+    }
+
+    @keyframes pulsBtn {
+      0%,100% { box-shadow: 0 0 0 4px #fff, 0 0 0 8px #ffb3c6, 0 10px 36px rgba(255,100,150,0.55); }
+      50%      { box-shadow: 0 0 0 4px #fff, 0 0 0 16px #ffb3c6, 0 16px 44px rgba(255,100,150,0.75); }
+    }
+
+    .btn-emoji {
+      display: block;
+      font-size: 2.2rem;
+      animation: heartPop 0.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes heartPop {
+      from { transform: scale(1); }
+      to   { transform: scale(1.35); }
+    }
+
+    .splash-hint {
+      margin-top: 28px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.42rem;
+      color: #c0a0d0;
+      text-align: center;
+      line-height: 2.2;
+      pointer-events: none;
+      position: relative;
+      z-index: 1;
+      animation: floatTitle 2s ease-in-out infinite;
+    }
+
+    /* ════════════════════════
+       MAIN
+    ════════════════════════ */
+    #main {
+      display: none;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #fff0f5 0%, #f5eeff 40%, #fff5e6 80%, #ffe8f0 100%);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    #main.visible {
+      display: block;
+      animation: fadeInMain 1.2s ease forwards;
+    }
+
+    @keyframes fadeInMain {
+      from { opacity: 0; transform: scale(0.97); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* ════════════════════════
+       CANVAS CORAZONES
+    ════════════════════════ */
+    #heartsCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* ════════════════════════
+       CONTROL MÚSICA
+    ════════════════════════ */
+    #musicCtrl {
+      position: fixed;
+      bottom: 20px; right: 16px;
+      z-index: 1000;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 2px solid #ffb3c6;
+      border-radius: 50px;
+      padding: 10px 16px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #c0607a;
+      box-shadow: 0 4px 20px rgba(255,150,180,0.3);
+      touch-action: manipulation;
+      -webkit-appearance: none;
+    }
+
+    #musicCtrl.show { display: flex; }
+
+    .music-icon { font-size: 1.3rem; animation: spin 3s linear infinite; }
+    @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    .music-icon.paused { animation-play-state: paused; }
+
+    /* ════════════════════════
+       RIBBON
+    ════════════════════════ */
+    .ribbon {
+      width: 100%;
+      height: 8px;
+      background: repeating-linear-gradient(90deg,
+        #ffb3c6 0px, #ffb3c6 20px,
+        #d4a8f0 20px, #d4a8f0 40px,
+        #b8d4ff 40px, #b8d4ff 60px
+      );
+      position: sticky;
+      top: 0;
+      z-index: 500;
+    }
+
+    /* ════════════════════════
+       HERO
+    ════════════════════════ */
+    .hero {
+      text-align: center;
+      padding: 60px 20px 30px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .hero-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2.2rem, 8vw, 5.5rem);
+      background: linear-gradient(135deg, #e8609a, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      filter: drop-shadow(2px 4px 6px rgba(200,80,150,0.3));
+    }
+
+    .hero-sub {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.1rem, 3.5vw, 1.8rem);
+      color: #a070c0;
+      margin-bottom: 20px;
+    }
+
+    .beat-heart {
+      font-size: 3.5rem;
+      display: inline-block;
+      animation: beatHeart 0.8s ease-in-out infinite;
+    }
+
+    @keyframes beatHeart {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.25); }
+    }
+
+    /* ════════════════════════
+       ANIMALES 8-BIT
+    ════════════════════════ */
+    @keyframes walkLR {
+      0%   { left: -80px; transform: scaleX(1); }
+      48%  { left: calc(100vw + 80px); transform: scaleX(1); }
+      50%  { left: calc(100vw + 80px); transform: scaleX(-1); }
+      98%  { left: -80px; transform: scaleX(-1); }
+      100% { left: -80px; transform: scaleX(1); }
+    }
+
+    @keyframes walkRL {
+      0%   { left: calc(100vw + 80px); transform: scaleX(-1); }
+      48%  { left: -80px; transform: scaleX(-1); }
+      50%  { left: -80px; transform: scaleX(1); }
+      98%  { left: calc(100vw + 80px); transform: scaleX(1); }
+      100% { left: calc(100vw + 80px); transform: scaleX(-1); }
+    }
+
+    @keyframes jumpBounce {
+      0%,100% { bottom: 100px; }
+      20%     { bottom: 122px; }
+      40%     { bottom: 100px; }
+      60%     { bottom: 110px; }
+      80%     { bottom: 100px; }
+    }
+
+    @keyframes butterflyFly {
+      0%   { left: -100px; bottom: 55%; transform: scaleX(1); }
+      15%  { bottom: 70%; }
+      30%  { bottom: 45%; }
+      50%  { left: calc(100vw + 100px); bottom: 60%; transform: scaleX(1); }
+      51%  { left: calc(100vw + 100px); bottom: 60%; transform: scaleX(-1); }
+      65%  { bottom: 40%; }
+      80%  { bottom: 65%; }
+      99%  { left: -100px; bottom: 55%; transform: scaleX(-1); }
+      100% { left: -100px; bottom: 55%; transform: scaleX(1); }
+    }
+
+    @keyframes wingFlap {
+      0%,100% { transform: scaleY(1); }
+      50%     { transform: scaleY(0.25); }
+    }
+
+    @keyframes bearWalk {
+      0%   { left: -90px; transform: scaleX(1); }
+      45%  { left: calc(100vw + 90px); transform: scaleX(1); }
+      50%  { left: calc(100vw + 90px); transform: scaleX(-1); }
+      95%  { left: -90px; transform: scaleX(-1); }
+      100% { left: -90px; transform: scaleX(1); }
+    }
+
+    @keyframes bearBob {
+      0%,100% { transform: translateY(0); }
+      25%     { transform: translateY(-8px) rotate(-3deg); }
+      75%     { transform: translateY(-4px) rotate(3deg); }
+    }
+
+    @keyframes dogRun {
+      0%   { left: -80px; transform: scaleX(1); }
+      42%  { left: calc(100vw + 80px); transform: scaleX(1); }
+      50%  { left: calc(100vw + 80px); transform: scaleX(-1); }
+      92%  { left: -80px; transform: scaleX(-1); }
+      100% { left: -80px; transform: scaleX(1); }
+    }
+
+    @keyframes sparkle {
+      0%   { opacity: 0; transform: scale(0) rotate(0deg); }
+      50%  { opacity: 1; transform: scale(1.2) rotate(180deg); }
+      100% { opacity: 0; transform: scale(0) rotate(360deg); }
+    }
+
+    @keyframes orbitStar {
+      0%   { transform: rotate(0deg) translateX(120px) rotate(0deg); opacity:0.8; }
+      50%  { transform: rotate(180deg) translateX(120px) rotate(-180deg); opacity:1; }
+      100% { transform: rotate(360deg) translateX(120px) rotate(-360deg); opacity:0.8; }
+    }
+
+    /* ════════════════════════
+       CARTA
+    ════════════════════════ */
+    .letter-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 10px 20px 60px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .letter-card {
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 28px;
+      border: 2px solid rgba(255,180,210,0.45);
+      box-shadow:
+        0 8px 40px rgba(200,100,160,0.15),
+        0 2px 10px rgba(180,150,220,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+      padding: clamp(24px, 5vw, 52px);
+      position: relative;
+    }
+
+    .letter-date {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #c0a0d0;
+      margin-bottom: 22px;
+      letter-spacing: 1px;
+    }
+
+    .letter-greeting {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.8rem, 5.5vw, 2.8rem);
+      color: #d46fa0;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    #typewriter-text {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+      color: #5a4070;
+      line-height: 1.85;
+      white-space: pre-wrap;
+      min-height: 120px;
+    }
+
+    .cursor-blink {
+      display: inline-block;
+      width: 3px;
+      height: 1.1em;
+      background: #d46fa0;
+      vertical-align: middle;
+      animation: blinkCursor 0.7s step-end infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes blinkCursor {
+      0%,100% { opacity: 1; } 50% { opacity: 0; }
+    }
+
+    .divider {
+      text-align: center;
+      font-size: 1.4rem;
+      margin: 28px 0;
+      letter-spacing: 8px;
+      animation: floatDiv 2.5s ease-in-out infinite;
+    }
+
+    @keyframes floatDiv {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-6px); }
+    }
+
+    /* ════════════════════════
+       CLOSING
+    ════════════════════════ */
+    .closing {
+      text-align: center;
+      padding: 40px 20px 120px;
+      position: relative;
+      z-index: 10;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .closing.shown {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .closing-phrase {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.9rem, 6.5vw, 4rem);
+      background: linear-gradient(135deg, #ff6b9d, #c44dff, #ff6b9d);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+      line-height: 1.3;
+      margin-bottom: 30px;
+      padding: 0 12px;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .pixel-heart-big {
+      display: inline-flex;
+      justify-content: center;
+      margin: 20px auto;
+      animation: bigBeat 0.7s ease-in-out infinite;
+    }
+
+    @keyframes bigBeat {
+      0%,100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255,100,150,0.6)); }
+      50%      { transform: scale(1.3); filter: drop-shadow(0 0 20px rgba(255,100,150,0.9)); }
+    }
+
+    .px-heart {
+      --c: #ff4d7a;
+      display: grid;
+      grid-template-columns: repeat(7, 12px);
+      grid-template-rows: repeat(6, 12px);
+      gap: 1px;
+      image-rendering: pixelated;
+    }
+
+    .px { width: 12px; height: 12px; background: transparent; }
+    .px.f { background: var(--c); }
+    .px.d { background: #ff8fb0; }
+
+    .signature {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.4rem, 4.5vw, 2.3rem);
+      color: #c0607a;
+      margin-top: 24px;
+    }
+
+    /* ════════════════════════
+       ESTRELLAS
+    ════════════════════════ */
+    .star {
+      position: fixed;
+      border-radius: 50%;
+      background: white;
+      animation: twinkle ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes twinkle {
+      0%,100% { opacity: 0.2; transform: scale(1); }
+      50%      { opacity: 0.9; transform: scale(1.5); }
+    }
+
+    .scroll-hint {
+      text-align: center;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #c0a0d0;
+      margin-top: 16px;
+      animation: floatDiv 1.8s ease-in-out infinite;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 480px) {
+      .letter-card { padding: 20px 16px; border-radius: 20px; }
+    }
+
+    /* ════════════════════════
+       SPARKLES
+    ════════════════════════ */
+    .sparkle-dot {
+      position: fixed;
+      pointer-events: none;
+      z-index: 21;
+      font-size: 14px;
+      animation: sparkle 1.5s ease-in-out infinite;
+    }
+
+    /* ════════════════════════
+       AUDIO OCULTO
+    ════════════════════════ */
+    #yt-wrap {
+      position: fixed;
+      width: 1px; height: 1px;
+      top: -10px; left: -10px;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: -9999;
+      opacity: 0.01;
+    }
+
+    /* ════════════════════════════════════════
+       BLOQUEAR ANUNCIOS INYECTADOS POR HOST
+    ════════════════════════════════════════ */
+    body > iframe,
+    body > div[style*="z-index: 2147483647"],
+    body > div[style*="z-index:2147483647"],
+    body > div[id*="arena"],
+    body > div[class*="arena"],
+    body > div[id*="ad-"],
+    body > div[class*="ad-"],
+    body > div[id*="advert"],
+    body > div[class*="advert"],
+    body > div[id*="banner"],
+    body > div[class*="banner"],
+    body > div[id*="promo"],
+    body > div[class*="promo"] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      height: 0 !important;
+      width: 0 !important;
+      overflow: hidden !important;
+      position: absolute !important;
+      top: -9999px !important;
+      left: -9999px !important;
+    }
+
+    /* ════════════════════════
+       ANIMALITOS EN CARTA
+    ════════════════════════ */
+    .carta-animal-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 18px;
+      margin: 24px 0 10px;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .carta-michi {
+      animation: cartaMichiFloat 1.8s ease-in-out infinite;
+      transform-origin: bottom center;
+      filter: drop-shadow(0 4px 8px rgba(200,100,180,0.3));
+    }
+    @keyframes cartaMichiFloat {
+      0%,100% { transform: translateY(0) rotate(-2deg); }
+      50%      { transform: translateY(-10px) rotate(2deg); }
+    }
+
+    .carta-perrito {
+      animation: cartaPerritoWag 0.6s ease-in-out infinite;
+      transform-origin: bottom center;
+      filter: drop-shadow(0 4px 8px rgba(180,140,100,0.3));
+    }
+    @keyframes cartaPerritoWag {
+      0%,100% { transform: rotate(-4deg) translateY(0); }
+      50%      { transform: rotate(4deg) translateY(-6px); }
+    }
+
+    .carta-corazon {
+      animation: cartaCorazonBeat 0.9s ease-in-out infinite;
+      font-size: 28px;
+      line-height: 1;
+      align-self: center;
+      margin-bottom: 8px;
+    }
+    @keyframes cartaCorazonBeat {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.35); }
+    }
+
+    .carta-stars {
+      animation: cartaStarSpin 2s linear infinite;
+      font-size: 20px;
+      align-self: center;
+    }
+    @keyframes cartaStarSpin {
+      0%   { transform: rotate(0deg) scale(1); opacity:0.7; }
+      50%  { transform: rotate(180deg) scale(1.3); opacity:1; }
+      100% { transform: rotate(360deg) scale(1); opacity:0.7; }
+    }
+
+    .carta-bubble {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      background: rgba(255,255,255,0.9);
+      border: 2px solid #ffb3c6;
+      border-radius: 10px;
+      padding: 6px 8px;
+      color: #d46fa0;
+      text-align: center;
+      position: relative;
+      margin-bottom: 6px;
+      animation: bubblePop 2.5s ease-in-out infinite;
+      line-height: 1.6;
+      max-width: 120px;
+    }
+    .carta-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 4px solid transparent;
+      border-top-color: #ffb3c6;
+    }
+    @keyframes bubblePop {
+      0%,100% { transform: scale(1) translateY(0); }
+      50%      { transform: scale(1.05) translateY(-4px); }
+    }
+
+    .carta-animal-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- YouTube invisible -->
+<div id="yt-wrap">
+  <div id="yt-player"></div>
+</div>
+
+<!-- SPLASH -->
+<div id="splash">
+  <!-- OVERLAY: captura TODO el toque sin importar dónde -->
+  <div id="splash-overlay"></div>
+
+  <div class="splash-title">✨ Para ti, amor mío ✨</div>
+  <div class="splash-sub">una sorpresita con todo mi corazón 💌</div>
+
+  <div id="touchBtn">
+    <span class="btn-emoji">💕</span>
+    Tócame, amor
+  </div>
+
+  <div class="splash-hint">▼ toca en cualquier parte ▼</div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <div class="ribbon"></div>
+  <canvas id="heartsCanvas"></canvas>
+
+  <div id="musicCtrl">
+    <span class="music-icon" id="musicIcon">🎵</span>
+    <span id="musicLabel">Golden Hour</span>
+  </div>
+
+  <!-- CRIATURAS 8-BIT -->
+
+  <!-- 1. GATITO LILA — camina LR con patas animadas -->
+  <div id="cat1" style="position:fixed; bottom:80px; z-index:20; pointer-events:none; animation: walkLR 14s linear infinite;">
+    <svg width="64" height="64" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated; display:block;">
+      <rect x="2" y="0" width="2" height="3" fill="#c9b8f5"/>
+      <rect x="12" y="0" width="2" height="3" fill="#c9b8f5"/>
+      <rect x="3" y="1" width="1" height="2" fill="#ff85a1"/>
+      <rect x="12" y="1" width="1" height="2" fill="#ff85a1"/>
+      <rect x="2" y="2" width="12" height="7" fill="#e2ceff"/>
+      <rect x="4" y="4" width="2" height="2" fill="#222"/>
+      <rect x="10" y="4" width="2" height="2" fill="#222"/>
+      <rect x="4" y="4" width="1" height="1" fill="#fff"/>
+      <rect x="10" y="4" width="1" height="1" fill="#fff"/>
+      <rect x="7" y="6" width="2" height="1" fill="#ff85a1"/>
+      <rect x="2" y="7" width="3" height="1" fill="#c9b8f5"/>
+      <rect x="11" y="7" width="3" height="1" fill="#c9b8f5"/>
+      <rect x="3" y="9" width="10" height="5" fill="#d4bbff"/>
+      <rect id="c1p1" x="3" y="13" width="2" height="2" fill="#c9b8f5"/>
+      <rect id="c1p2" x="6" y="13" width="2" height="2" fill="#c9b8f5"/>
+      <rect id="c1p3" x="9" y="13" width="2" height="2" fill="#c9b8f5"/>
+      <rect id="c1p4" x="12" y="13" width="2" height="2" fill="#c9b8f5"/>
+      <rect x="13" y="8" width="2" height="1" fill="#c9b8f5"/>
+      <rect x="14" y="7" width="2" height="1" fill="#c9b8f5"/>
+      <rect x="15" y="6" width="1" height="1" fill="#c9b8f5"/>
+      <rect x="7" y="9" width="2" height="2" fill="#ff85a1"/>
+    </svg>
+  </div>
+
+  <!-- 2. GATITO NARANJA BRINCÓN -->
+  <div id="cat2" style="position:fixed; z-index:20; pointer-events:none; animation: walkRL 18s linear infinite -6s, jumpBounce 0.6s ease-in-out infinite;">
+    <svg width="60" height="60" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated; display:block;">
+      <rect x="1" y="0" width="2" height="3" fill="#e8943a"/>
+      <rect x="11" y="0" width="2" height="3" fill="#e8943a"/>
+      <rect x="2" y="1" width="1" height="2" fill="#ff85a1"/>
+      <rect x="11" y="1" width="1" height="2" fill="#ff85a1"/>
+      <rect x="1" y="2" width="13" height="7" fill="#f5a84a"/>
+      <rect x="3" y="3" width="2" height="1" fill="#e07830"/>
+      <rect x="9" y="3" width="2" height="1" fill="#e07830"/>
+      <rect x="3" y="4" width="2" height="2" fill="#1a1a2e"/>
+      <rect x="9" y="4" width="2" height="2" fill="#1a1a2e"/>
+      <rect x="3" y="4" width="1" height="1" fill="#fff"/>
+      <rect x="9" y="4" width="1" height="1" fill="#fff"/>
+      <rect x="6" y="6" width="3" height="1" fill="#ff6b9d"/>
+      <rect x="1" y="7" width="3" height="1" fill="#f5a84a"/>
+      <rect x="11" y="7" width="3" height="1" fill="#f5a84a"/>
+      <rect x="2" y="9" width="11" height="5" fill="#e8943a"/>
+      <rect x="5" y="9" width="5" height="3" fill="#ffd6b0"/>
+      <rect x="6" y="10" width="3" height="2" fill="#ff85a1"/>
+      <rect x="2" y="13" width="2" height="2" fill="#e8943a"/>
+      <rect x="5" y="13" width="2" height="2" fill="#e8943a"/>
+      <rect x="8" y="13" width="2" height="2" fill="#e8943a"/>
+      <rect x="11" y="13" width="2" height="2" fill="#e8943a"/>
+    </svg>
+  </div>
+
+  <!-- 3. MARIPOSA REMOVIDA — reemplazada por animalitos en carta -->
+
+  <!-- 4. OSITO PIXEL ART -->
+  <div id="bear" style="position:fixed; bottom:120px; z-index:20; pointer-events:none; animation: bearWalk 20s linear infinite -10s;">
+    <div style="animation: bearBob 0.7s ease-in-out infinite;">
+      <svg width="60" height="64" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated; display:block;">
+        <!-- orejas -->
+        <rect x="1" y="0" width="3" height="3" fill="#c8a882"/>
+        <rect x="11" y="0" width="3" height="3" fill="#c8a882"/>
+        <rect x="2" y="1" width="1" height="1" fill="#e8c0a0"/>
+        <rect x="12" y="1" width="1" height="1" fill="#e8c0a0"/>
+        <!-- cabeza -->
+        <rect x="1" y="2" width="13" height="7" fill="#d4b896"/>
+        <!-- ojos -->
+        <rect x="3" y="4" width="2" height="2" fill="#1a0a00"/>
+        <rect x="10" y="4" width="2" height="2" fill="#1a0a00"/>
+        <rect x="3" y="4" width="1" height="1" fill="#fff"/>
+        <rect x="10" y="4" width="1" height="1" fill="#fff"/>
+        <!-- nariz corazón -->
+        <rect x="6" y="6" width="3" height="1" fill="#c06080"/>
+        <rect x="5" y="7" width="2" height="1" fill="#c06080"/>
+        <rect x="8" y="7" width="2" height="1" fill="#c06080"/>
+        <!-- cuerpo -->
+        <rect x="2" y="9" width="11" height="6" fill="#c8a882"/>
+        <!-- pancita -->
+        <rect x="4" y="9" width="7" height="5" fill="#e8d0b8"/>
+        <!-- corazón en la panza -->
+        <rect x="6" y="10" width="1" height="1" fill="#ff6090"/>
+        <rect x="8" y="10" width="1" height="1" fill="#ff6090"/>
+        <rect x="5" y="11" width="5" height="1" fill="#ff6090"/>
+        <rect x="6" y="12" width="3" height="1" fill="#ff6090"/>
+        <rect x="7" y="13" width="1" height="1" fill="#ff6090"/>
+        <!-- patas -->
+        <rect x="2" y="14" width="3" height="2" fill="#c8a882"/>
+        <rect x="10" y="14" width="3" height="2" fill="#c8a882"/>
+        <rect x="3" y="15" width="2" height="1" fill="#a08060"/>
+        <rect x="10" y="15" width="2" height="1" fill="#a08060"/>
+        <!-- bracitos -->
+        <rect x="0" y="10" width="2" height="3" fill="#c8a882"/>
+        <rect x="13" y="10" width="2" height="3" fill="#c8a882"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 5. PERRITO QUE CORRE -->
+  <div id="dog" style="position:fixed; bottom:68px; z-index:20; pointer-events:none; animation: dogRun 9s linear infinite -3s;">
+    <svg width="64" height="56" viewBox="0 0 16 14" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated; display:block;">
+      <!-- orejas colgantes -->
+      <rect x="0" y="2" width="3" height="5" fill="#b87840"/>
+      <rect x="11" y="0" width="4" height="3" fill="#b87840"/>
+      <!-- cabeza -->
+      <rect x="2" y="1" width="11" height="7" fill="#d4a060"/>
+      <!-- ojos -->
+      <rect x="4" y="3" width="2" height="2" fill="#1a0a00"/>
+      <rect x="9" y="3" width="2" height="2" fill="#1a0a00"/>
+      <rect x="4" y="3" width="1" height="1" fill="#fff"/>
+      <rect x="9" y="3" width="1" height="1" fill="#fff"/>
+      <!-- hocico -->
+      <rect x="4" y="6" width="6" height="3" fill="#e8c090"/>
+      <rect x="6" y="6" width="2" height="1" fill="#8a4020"/>
+      <!-- lengua -->
+      <rect x="6" y="8" width="3" height="2" fill="#ff6080"/>
+      <rect x="7" y="9" width="2" height="2" fill="#ff6080"/>
+      <!-- cuerpo -->
+      <rect x="3" y="8" width="10" height="5" fill="#c89050"/>
+      <!-- rabo -->
+      <rect x="13" y="6" width="2" height="1" fill="#d4a060"/>
+      <rect x="14" y="5" width="2" height="1" fill="#d4a060"/>
+      <rect x="15" y="4" width="1" height="2" fill="#d4a060"/>
+      <!-- patas -->
+      <rect x="3" y="12" width="2" height="2" fill="#b87840"/>
+      <rect x="6" y="12" width="2" height="2" fill="#b87840"/>
+      <rect x="9" y="12" width="2" height="2" fill="#b87840"/>
+      <rect x="12" y="12" width="2" height="2" fill="#b87840"/>
+    </svg>
+  </div>
+
+  <!-- 6. GATITO ROSA CON CORAZÓN EN PANZA -->
+  <div id="cat3" style="position:fixed; bottom:90px; z-index:20; pointer-events:none; animation: walkLR 24s linear infinite -12s;">
+    <svg width="56" height="56" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated; display:block;">
+      <!-- orejas -->
+      <rect x="1" y="0" width="2" height="3" fill="#ffb3c6"/>
+      <rect x="11" y="0" width="2" height="3" fill="#ffb3c6"/>
+      <rect x="2" y="1" width="1" height="2" fill="#ff85a1"/>
+      <rect x="11" y="1" width="1" height="2" fill="#ff85a1"/>
+      <!-- cabeza -->
+      <rect x="1" y="2" width="12" height="7" fill="#ffd6e7"/>
+      <!-- ojos especiales con 2 destellos -->
+      <rect x="3" y="4" width="2" height="2" fill="#5050c0"/>
+      <rect x="9" y="4" width="2" height="2" fill="#5050c0"/>
+      <rect x="3" y="4" width="1" height="1" fill="#fff"/>
+      <rect x="9" y="4" width="1" height="1" fill="#fff"/>
+      <rect x="4" y="5" width="1" height="1" fill="#fff"/>
+      <rect x="10" y="5" width="1" height="1" fill="#fff"/>
+      <!-- nariz corazón -->
+      <rect x="6" y="6" width="1" height="1" fill="#ff4d7a"/>
+      <rect x="7" y="6" width="1" height="1" fill="#ff4d7a"/>
+      <rect x="5" y="7" width="2" height="1" fill="#ff4d7a"/>
+      <rect x="7" y="7" width="2" height="1" fill="#ff4d7a"/>
+      <rect x="6" y="8" width="2" height="1" fill="#ff4d7a"/>
+      <!-- bigotes -->
+      <rect x="0" y="7" width="3" height="1" fill="#ffb3c6"/>
+      <rect x="11" y="7" width="3" height="1" fill="#ffb3c6"/>
+      <!-- cuerpo -->
+      <rect x="2" y="9" width="10" height="5" fill="#ffc2d6"/>
+      <!-- corazón en panza -->
+      <rect x="5" y="9" width="4" height="1" fill="#fff"/>
+      <rect x="4" y="10" width="2" height="1" fill="#ff4d7a"/>
+      <rect x="8" y="10" width="2" height="1" fill="#ff4d7a"/>
+      <rect x="4" y="11" width="6" height="1" fill="#ff4d7a"/>
+      <rect x="5" y="12" width="4" height="1" fill="#ff4d7a"/>
+      <rect x="6" y="13" width="2" height="1" fill="#ff4d7a"/>
+      <!-- patas -->
+      <rect x="2" y="13" width="2" height="1" fill="#ffb3c6"/>
+      <rect x="10" y="13" width="2" height="1" fill="#ffb3c6"/>
+      <rect x="5" y="13" width="2" height="1" fill="#ffb3c6"/>
+      <!-- cola -->
+      <rect x="12" y="8" width="2" height="1" fill="#ffb3c6"/>
+      <rect x="13" y="7" width="1" height="2" fill="#ff85a1"/>
+    </svg>
+  </div>
+
+  <!-- ══════════════════════════════
+       ESTRELLAS ORBITANDO
+  ══════════════════════════════ -->
+  <div style="position:fixed; top:50%; left:50%; z-index:4; pointer-events:none;">
+    <div style="animation: orbitStar 8s linear infinite; position:absolute; font-size:22px;">⭐</div>
+    <div style="animation: orbitStar 12s linear infinite reverse -4s; position:absolute; font-size:18px;">💫</div>
+    <div style="animation: orbitStar 15s linear infinite -7s; position:absolute; font-size:14px;">✨</div>
+  </div>
+
+  <!-- SPARKLES alrededor de criaturas -->
+  <div class="sparkle-dot" style="bottom:145px; left:15%; animation-delay:0s;">✨</div>
+  <div class="sparkle-dot" style="bottom:160px; left:30%; animation-delay:0.5s;">💫</div>
+  <div class="sparkle-dot" style="bottom:130px; right:20%; animation-delay:1s;">⭐</div>
+  <div class="sparkle-dot" style="bottom:170px; right:35%; animation-delay:1.5s;">✨</div>
+  <div class="sparkle-dot" style="bottom:150px; left:60%; animation-delay:0.8s;">💕</div>
+  <div class="sparkle-dot" style="bottom:140px; right:10%; animation-delay:0.3s;">🌸</div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-title">Para ti, mi amor 🌸</div>
+    <div class="hero-sub">una carta desde lo más profundo de mi corazón</div>
+    <div class="beat-heart">💖</div>
+    <div class="scroll-hint">▼ sigue leyendo ▼</div>
+  </div>
+
+  <!-- CARTA -->
+  <div class="letter-wrapper">
+    <div class="letter-card">
+      <div class="letter-date">💌 para siempre · para ti · para nosotros</div>
+      <div class="letter-greeting">Mi amor, mi vida, mi todo...</div>
+      <div class="divider">💕 · 💕 · 💕</div>
+      <div id="typewriter-text"></div><span class="cursor-blink" id="cursor"></span>
+    </div>
+  </div>
+
+  <!-- ANIMALITOS EN CARTA — aparecen al terminar de leer -->
+  <div class="carta-animal-wrap" id="cartaAnimals" style="opacity:0; transition: opacity 1.5s ease; margin-top:30px;">
+    <!-- Estrellitas izquierda -->
+    <div class="carta-stars">✨</div>
+
+    <!-- MICHI LINDO CON BURBUJA -->
+    <div class="carta-animal-col">
+      <div class="carta-bubble">miau~<br>te amo! 💕</div>
+      <div class="carta-michi">
+        <svg width="72" height="72" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated; display:block;">
+          <!-- orejas -->
+          <rect x="2" y="0" width="3" height="4" fill="#e8b4ff"/>
+          <rect x="13" y="0" width="3" height="4" fill="#e8b4ff"/>
+          <rect x="3" y="1" width="1" height="2" fill="#ff85a1"/>
+          <rect x="14" y="1" width="1" height="2" fill="#ff85a1"/>
+          <!-- cabeza -->
+          <rect x="2" y="3" width="14" height="8" fill="#f0d4ff"/>
+          <!-- mejillas rosadas -->
+          <rect x="2" y="8" width="3" height="2" fill="#ffb3d1"/>
+          <rect x="13" y="8" width="3" height="2" fill="#ffb3d1"/>
+          <!-- ojos grandes con brillo -->
+          <rect x="4" y="5" width="3" height="3" fill="#5533aa"/>
+          <rect x="11" y="5" width="3" height="3" fill="#5533aa"/>
+          <rect x="4" y="5" width="1" height="1" fill="#fff"/>
+          <rect x="11" y="5" width="1" height="1" fill="#fff"/>
+          <rect x="6" y="7" width="1" height="1" fill="#fff"/>
+          <rect x="13" y="7" width="1" height="1" fill="#fff"/>
+          <!-- nariz corazón -->
+          <rect x="8" y="7" width="1" height="1" fill="#ff4d7a"/>
+          <rect x="9" y="7" width="1" height="1" fill="#ff4d7a"/>
+          <rect x="7" y="8" width="2" height="1" fill="#ff4d7a"/>
+          <rect x="9" y="8" width="2" height="1" fill="#ff4d7a"/>
+          <rect x="8" y="9" width="2" height="1" fill="#ff4d7a"/>
+          <!-- bigotes -->
+          <rect x="0" y="8" width="4" height="1" fill="#d4a8f0"/>
+          <rect x="14" y="8" width="4" height="1" fill="#d4a8f0"/>
+          <!-- cuerpo -->
+          <rect x="3" y="11" width="12" height="6" fill="#e2c4ff"/>
+          <!-- pancita -->
+          <rect x="5" y="11" width="8" height="5" fill="#ffeeff"/>
+          <!-- corazón panza -->
+          <rect x="7" y="12" width="1" height="1" fill="#ff6090"/>
+          <rect x="9" y="12" width="1" height="1" fill="#ff6090"/>
+          <rect x="6" y="13" width="5" height="1" fill="#ff6090"/>
+          <rect x="7" y="14" width="3" height="1" fill="#ff6090"/>
+          <!-- patas -->
+          <rect x="3" y="16" width="3" height="2" fill="#d4b8ff"/>
+          <rect x="12" y="16" width="3" height="2" fill="#d4b8ff"/>
+          <rect x="7" y="16" width="3" height="2" fill="#d4b8ff"/>
+          <!-- cola -->
+          <rect x="15" y="10" width="2" height="1" fill="#d4b8ff"/>
+          <rect x="16" y="9" width="2" height="1" fill="#e8b4ff"/>
+          <rect x="17" y="8" width="1" height="2" fill="#e8b4ff"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- CORAZON GRANDE CENTRAL -->
+    <div class="carta-corazon">💖</div>
+
+    <!-- PERRITO LINDO CON BURBUJA -->
+    <div class="carta-animal-col">
+      <div class="carta-bubble">woof!<br>eres linda 🐾</div>
+      <div class="carta-perrito">
+        <svg width="72" height="68" viewBox="0 0 18 17" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated; display:block;">
+          <!-- orejas caídas -->
+          <rect x="0" y="2" width="4" height="6" fill="#c08840"/>
+          <rect x="14" y="0" width="4" height="5" fill="#c08840"/>
+          <rect x="1" y="3" width="2" height="4" fill="#d4a060"/>
+          <rect x="14" y="1" width="2" height="3" fill="#d4a060"/>
+          <!-- cabeza -->
+          <rect x="3" y="1" width="12" height="8" fill="#e8b870"/>
+          <!-- ojos con corazón de brillo -->
+          <rect x="4" y="3" width="3" height="3" fill="#1a0a00"/>
+          <rect x="11" y="3" width="3" height="3" fill="#1a0a00"/>
+          <rect x="4" y="3" width="1" height="1" fill="#fff"/>
+          <rect x="11" y="3" width="1" height="1" fill="#fff"/>
+          <rect x="6" y="5" width="1" height="1" fill="#ff85a1"/>
+          <rect x="13" y="5" width="1" height="1" fill="#ff85a1"/>
+          <!-- hocico -->
+          <rect x="5" y="7" width="8" height="3" fill="#f8d090"/>
+          <rect x="7" y="7" width="4" height="2" fill="#a06030"/>
+          <!-- lengua feliz -->
+          <rect x="7" y="9" width="4" height="2" fill="#ff6080"/>
+          <rect x="8" y="10" width="3" height="3" fill="#ff6080"/>
+          <rect x="8" y="11" width="1" height="2" fill="#e04060"/>
+          <rect x="10" y="11" width="1" height="2" fill="#e04060"/>
+          <!-- cuerpo -->
+          <rect x="4" y="9" width="10" height="6" fill="#d4a060"/>
+          <!-- manchas -->
+          <rect x="4" y="9" width="4" height="3" fill="#c08840"/>
+          <rect x="11" y="11" width="3" height="3" fill="#c08840"/>
+          <!-- collar corazón -->
+          <rect x="5" y="9" width="8" height="2" fill="#ff85a1"/>
+          <rect x="8" y="9" width="2" height="1" fill="#ff4d7a"/>
+          <!-- colita arriba -->
+          <rect x="14" y="7" width="2" height="1" fill="#e8b870"/>
+          <rect x="15" y="6" width="2" height="1" fill="#e8b870"/>
+          <rect x="16" y="5" width="2" height="2" fill="#d4a060"/>
+          <!-- patas -->
+          <rect x="4" y="14" width="3" height="3" fill="#c08840"/>
+          <rect x="8" y="14" width="3" height="3" fill="#c08840"/>
+          <rect x="12" y="14" width="3" height="3" fill="#c08840"/>
+          <rect x="5" y="16" width="2" height="1" fill="#a06030"/>
+          <rect x="9" y="16" width="2" height="1" fill="#a06030"/>
+          <rect x="13" y="16" width="2" height="1" fill="#a06030"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Estrellitas derecha -->
+    <div class="carta-stars" style="animation-direction:reverse;">💫</div>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="closing" id="closing">
+    <div class="closing-phrase">Eres mi persona favorita<br>en todo el universo 🌟</div>
+    <div class="pixel-heart-big">
+      <div class="px-heart">
+        <div class="px"></div><div class="px f"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px f"></div><div class="px"></div>
+        <div class="px f"></div><div class="px d"></div><div class="px f"></div><div class="px"></div><div class="px f"></div><div class="px d"></div><div class="px f"></div>
+        <div class="px f"></div><div class="px f"></div><div class="px f"></div><div class="px f"></div><div class="px f"></div><div class="px f"></div><div class="px f"></div>
+        <div class="px"></div><div class="px f"></div><div class="px f"></div><div class="px f"></div><div class="px f"></div><div class="px f"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="px f"></div><div class="px f"></div><div class="px f"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="px"></div><div class="px f"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      </div>
+    </div>
+    <div class="signature">— Tuyo para siempre, hoy y siempre 🌸</div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+/* ════════════════════════════════════════════
+   VARIABLES GLOBALES
+════════════════════════════════════════════ */
+var splashEl = document.getElementById('splash');
+var journeyStarted = false;
+
+/* ════════════════════════════════════════════
+   CORAZONES EN SPLASH
+════════════════════════════════════════════ */
+var splashEmojis = ['💕','💖','💗','💓','🌸','✨'];
+for (var i = 0; i < 18; i++) {
+  var d = document.createElement('div');
+  d.className = 'splash-heart';
+  d.textContent = splashEmojis[i % splashEmojis.length];
+  d.style.cssText =
+    'left:' + (Math.random()*100) + '%;' +
+    'font-size:' + (Math.random()*20+12) + 'px;' +
+    'animation-duration:' + (Math.random()*4+3) + 's;' +
+    'animation-delay:' + (Math.random()*4) + 's;';
+  splashEl.appendChild(d);
+}
+
+/* ════════════════════════════════════════════
+   YOUTUBE API
+════════════════════════════════════════════ */
+var ytPlayer;
+var ytReady = false;
+var playRequested = false;
+
+(function(){
+  var tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+})();
+
+function onYouTubeIframeAPIReady() {
+  ytPlayer = new YT.Player('yt-player', {
+    height: '1',
+    width: '1',
+    videoId: 'WCce-3XMdJs',
+    playerVars: {
+      autoplay: 0,
+      loop: 1,
+      playlist: 'WCce-3XMdJs',
+      controls: 0,
+      disablekb: 1,
+      fs: 0,
+      modestbranding: 1,
+      rel: 0,
+      iv_load_policy: 3,
+      playsinline: 1,
+      mute: 0
+    },
+    events: {
+      onReady: function(e) {
+        ytReady = true;
+        e.target.setVolume(80);
+        if (playRequested) {
+          e.target.playVideo();
+        }
+      },
+      onStateChange: function(e) {
+        if (e.data === YT.PlayerState.ENDED) {
+          ytPlayer.seekTo(0);
+          ytPlayer.playVideo();
+        }
+      }
+    }
+  });
+}
+
+function tryPlayMusic() {
+  playRequested = true;
+  if (ytReady && ytPlayer) {
+    try {
+      ytPlayer.setVolume(80);
+      ytPlayer.playVideo();
+    } catch(err) {}
+  }
+}
+
+/* ════════════════════════════════════════════
+   FUNCIÓN PRINCIPAL — startJourney
+════════════════════════════════════════════ */
+function startJourney() {
+  if (journeyStarted) return;
+  journeyStarted = true;
+
+  /* Efecto visual en el botón */
+  var btn = document.getElementById('touchBtn');
+  btn.style.transform = 'scale(0.92)';
+  setTimeout(function(){ btn.style.transform = ''; }, 200);
+
+  tryPlayMusic();
+
+  splashEl.classList.add('hidden');
+  setTimeout(function() { splashEl.style.display = 'none'; }, 1300);
+
+  var main = document.getElementById('main');
+  main.classList.add('visible');
+
+  setTimeout(function() {
+    document.getElementById('musicCtrl').classList.add('show');
+  }, 1500);
+
+  setTimeout(initHearts, 900);
+  createStars();
+  setTimeout(startTypewriter, 1400);
+}
+
+/* ════════════════════════════════════════════
+   OVERLAY — captura CUALQUIER toque en WhatsApp
+════════════════════════════════════════════ */
+var overlay = document.getElementById('splash-overlay');
+
+/* Método 1: onclick directo en el atributo (máxima compatibilidad WebView) */
+overlay.setAttribute('onclick', 'startJourney()');
+
+/* Método 2: addEventListener click */
+overlay.addEventListener('click', function(e) {
+  e.stopPropagation();
+  startJourney();
+});
+
+/* Método 3: touchstart (el más rápido en móviles, sin preventDefault para no bloquear scroll) */
+overlay.addEventListener('touchstart', function(e) {
+  startJourney();
+}, { passive: true });
+
+/* Método 4: touchend como respaldo */
+overlay.addEventListener('touchend', function(e) {
+  startJourney();
+}, { passive: true });
+
+/* Método 5: pointerdown (para WebViews modernos) */
+overlay.addEventListener('pointerdown', function(e) {
+  startJourney();
+}, { passive: true });
+
+/* ════════════════════════════════════════════
+   CONTROL DE MÚSICA
+════════════════════════════════════════════ */
+var isPlaying = true;
+var musicCtrl = document.getElementById('musicCtrl');
+
+function toggleMusic() {
+  var icon = document.getElementById('musicIcon');
+  var label = document.getElementById('musicLabel');
+  if (isPlaying) {
+    if (ytPlayer && ytReady) ytPlayer.pauseVideo();
+    icon.classList.add('paused');
+    icon.textContent = '🔇';
+    label.textContent = 'Pausada';
+  } else {
+    if (ytPlayer && ytReady) ytPlayer.playVideo();
+    icon.classList.remove('paused');
+    icon.textContent = '🎵';
+    label.textContent = 'Golden Hour';
+  }
+  isPlaying = !isPlaying;
+}
+
+musicCtrl.setAttribute('onclick', 'toggleMusic()');
+musicCtrl.addEventListener('click', toggleMusic);
+musicCtrl.addEventListener('touchstart', function() { toggleMusic(); }, { passive: true });
+
+/* ════════════════════════════════════════════
+   ANIMACIÓN PATAS GATITO 8-BIT
+════════════════════════════════════════════ */
+var pawFrame = 0;
+var pawPositions = [
+  { p1y: 13, p2y: 13, p3y: 13, p4y: 13, p1h: 2, p2h: 2, p3h: 2, p4h: 2 },
+  { p1y: 14, p2y: 12, p3y: 14, p4y: 12, p1h: 1, p2h: 1, p3h: 1, p4h: 1 },
+  { p1y: 13, p2y: 13, p3y: 13, p4y: 13, p1h: 2, p2h: 2, p3h: 2, p4h: 2 },
+  { p1y: 12, p2y: 14, p3y: 12, p4y: 14, p1h: 1, p2h: 1, p3h: 1, p4h: 1 },
+];
+
+setInterval(function() {
+  pawFrame = (pawFrame + 1) % pawPositions.length;
+  var f = pawPositions[pawFrame];
+  var p1 = document.getElementById('c1p1');
+  var p2 = document.getElementById('c1p2');
+  var p3 = document.getElementById('c1p3');
+  var p4 = document.getElementById('c1p4');
+  if (!p1) return;
+  p1.setAttribute('y', f.p1y); p1.setAttribute('height', f.p1h);
+  p2.setAttribute('y', f.p2y); p2.setAttribute('height', f.p2h);
+  p3.setAttribute('y', f.p3y); p3.setAttribute('height', f.p3h);
+  p4.setAttribute('y', f.p4y); p4.setAttribute('height', f.p4h);
+}, 160);
+
+/* ════════════════════════════════════════════
+   MÁQUINA DE ESCRIBIR — scroll pegado al texto
+════════════════════════════════════════════ */
+var carta = 'No sé cuántas palabras existen en todos los idiomas del mundo, pero sé que ninguna combinación de ellas sería suficiente para describir lo que siento cada vez que estás cerca de mí.\n\nDesde que llegaste a mi vida, todo cambió. El sol parece brillar de forma diferente, los días difíciles ya no pesan tanto, y hasta el silencio a tu lado se siente como el lugar más cálido del universo.\n\nEres la persona más increíble que he conocido. No porque seas perfecta —nadie lo es— sino porque eres completamente auténtica. Esa versión tuya, con todas sus risas, sus ocurrencias, su ternura y su fuerza... es mi parte favorita de existir.\n\nMe enamoro de ti en los detalles más pequeños: cuando ríes sin darte cuenta de lo bonita que eres, cuando te concentras en algo y pones esa carita tan tuya, cuando me escribes solo para decirme que me estabas pensando. Esos momentos los guardo en el lugar más bonito de mi corazón.\n\nGracias. Gracias por elegirme cada día. Por quedarte cuando las cosas se complican. Por darme tu calma cuando yo pierdo la mía. Por ser mi equipo, mi cómplice, mi hogar, mi persona favorita en absolutamente todo.\n\nSi pudiera darte algo, te daría cada amanecer que me queda por vivir. Te daría mis días buenos y también los malos, porque contigo hasta lo más difícil se siente menos solo y más bonito.\n\nHoy, mañana y siempre... te elijo a ti. 💕\n\n— Tuyo para siempre 🌸';
+
+var charIndex = 0;
+var isTyping = false;
+var typeEl, cursorEl;
+
+function startTypewriter() {
+  if (isTyping) return;
+  isTyping = true;
+  typeEl = document.getElementById('typewriter-text');
+  cursorEl = document.getElementById('cursor');
+
+  function typeChar() {
+    if (charIndex < carta.length) {
+      var ch = carta[charIndex];
+      typeEl.textContent += ch;
+      charIndex++;
+
+      /* Scroll: lleva el cursor visible a 70% de la pantalla, suavemente letra a letra */
+      var rect = typeEl.getBoundingClientRect();
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      var target = scrollY + rect.bottom - (window.innerHeight * 0.70);
+      if (target > (window.pageYOffset || document.documentElement.scrollTop)) {
+        window.scrollTo(0, Math.max(0, target));
+      }
+
+      var speed;
+      if (ch === '\n') speed = 320;
+      else if (ch === '.' || ch === '!' || ch === '…') speed = 260;
+      else if (ch === ',') speed = 120;
+      else speed = Math.floor(Math.random() * 28) + 42;
+
+      setTimeout(typeChar, speed);
+    } else {
+      if (cursorEl) cursorEl.style.display = 'none';
+
+      // 💕 Mostrar animalitos de la carta con fade-in
+      var cartaAnimals = document.getElementById('cartaAnimals');
+      if (cartaAnimals) {
+        cartaAnimals.style.opacity = '1';
+        setTimeout(function() {
+          cartaAnimals.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
+
+      // Mostrar cierre después de los animalitos
+      setTimeout(function() {
+        var closing = document.getElementById('closing');
+        if (closing) {
+          closing.classList.add('shown');
+          setTimeout(function() {
+            closing.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 600);
+        }
+      }, 2200);
+    }
+  }
+
+  typeChar();
+}
+
+/* ════════════════════════════════════════════
+   💕 LLUVIA DE CORAZONES (Canvas)
+════════════════════════════════════════════ */
+function initHearts() {
+  var canvas = document.getElementById('heartsCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  var chars = ['💕','💖','💗','💓','💞','💘','🩷','🌸','✨','⭐','🌟','💫'];
+  var particles = [];
+
+  function mkParticle(fromTop, c) {
+    return {
+      x: Math.random() * c.width,
+      y: fromTop ? -30 : Math.random() * c.height,
+      size: Math.random() * 18 + 9,
+      speed: Math.random() * 1.2 + 0.3,
+      drift: (Math.random() - 0.5) * 0.5,
+      opacity: Math.random() * 0.5 + 0.3,
+      char: chars[Math.floor(Math.random() * chars.length)],
+      rotation: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.04,
+      wobble: Math.random() * Math.PI * 2,
+      wobbleSpeed: Math.random() * 0.03 + 0.01
+    };
+  }
+
+  for (var j = 0; j < 40; j++) {
+    particles.push(mkParticle(false, canvas));
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var k = 0; k < particles.length; k++) {
+      var p = particles[k];
+      p.y += p.speed;
+      p.x += p.drift + Math.sin(p.wobble) * 0.4;
+      p.wobble += p.wobbleSpeed;
+      p.rotation += p.rotSpeed;
+
+      ctx.save();
+      ctx.globalAlpha = p.opacity;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+      ctx.font = p.size + 'px serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(p.char, 0, 0);
+      ctx.restore();
+
+      if (p.y > canvas.height + 40) {
+        particles[k] = mkParticle(true, canvas);
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+/* ════════════════════════════════════════════
+   ⭐ ESTRELLAS DE FONDO
+════════════════════════════════════════════ */
+function createStars() {
+  var main = document.getElementById('main');
+  for (var s = 0; s < 28; s++) {
+    var star = document.createElement('div');
+    star.className = 'star';
+    var size = Math.random() * 4 + 1.5;
+    star.style.cssText =
+      'width:' + size + 'px;' +
+      'height:' + size + 'px;' +
+      'top:' + (Math.random() * 100) + '%;' +
+      'left:' + (Math.random() * 100) + '%;' +
+      'animation-duration:' + (Math.random() * 3 + 2) + 's;' +
+      'animation-delay:' + (Math.random() * 4) + 's;';
+    main.appendChild(star);
+  }
+}
+
+/* ════════════════════════════════════════════
+   🚫 ELIMINAR ANUNCIOS INYECTADOS POR HOST
+════════════════════════════════════════════ */
+(function killAds() {
+  var adKeywords = [
+    'arena','ad-','ads-','advert','banner','promo',
+    'sponsor','popup','overlay-ad','inject','widget-ad'
+  ];
+
+  function isAd(el) {
+    if (!el || el.id === 'main' || el.id === 'splash' || el.id === 'yt-wrap') return false;
+    var id = (el.id || '').toLowerCase();
+    var cls = (el.className || '').toLowerCase();
+    var tag = (el.tagName || '').toLowerCase();
+    // iframes externos (no nuestro YT)
+    if (tag === 'iframe' && el.id !== 'yt-player') return true;
+    // divs con keywords de anuncio
+    for (var i = 0; i < adKeywords.length; i++) {
+      if (id.indexOf(adKeywords[i]) !== -1 || cls.indexOf(adKeywords[i]) !== -1) return true;
+    }
+    // elementos con z-index altísimo inyectados
+    try {
+      var z = parseInt(window.getComputedStyle(el).zIndex);
+      if (z >= 2147483000 && el.id !== 'splash' && el.id !== 'musicCtrl') return true;
+    } catch(e) {}
+    return false;
+  }
+
+  function removeAds() {
+    var bodyChildren = document.body.children;
+    for (var i = bodyChildren.length - 1; i >= 0; i--) {
+      var child = bodyChildren[i];
+      if (isAd(child)) {
+        child.style.cssText = 'display:none!important;visibility:hidden!important;opacity:0!important;height:0!important;width:0!important;pointer-events:none!important;position:absolute!important;top:-9999px!important;left:-9999px!important;';
+        try { child.remove(); } catch(e) {}
+      }
+    }
+  }
+
+  // Ejecutar al cargar
+  removeAds();
+  setTimeout(removeAds, 500);
+  setTimeout(removeAds, 1500);
+  setTimeout(removeAds, 3000);
+
+  // Observar cambios en el DOM para eliminar anuncios dinámicos
+  if (window.MutationObserver) {
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1 && isAd(node)) {
+            node.style.cssText = 'display:none!important;visibility:hidden!important;opacity:0!important;height:0!important;pointer-events:none!important;position:absolute!important;top:-9999px!important;';
+            try { node.remove(); } catch(e) {}
+          }
+        });
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: false });
+  }
+})();
+</script>
+
+</body>
+</html>
